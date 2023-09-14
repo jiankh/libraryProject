@@ -9,8 +9,43 @@
 <body>
     <div class="container">
         <div class="header">WELCOME</div>
-        <div class="sidebar"></div>
-        <div class="content-container"></div>
+        <div class="sidebar">
+            <button class="btn-add-book btn" id="btn-add-book">Add Book</button>
+        </div>
+        <dialog id="newBookDialog">
+            <div class="form-container">
+                <div class="form-title">Add a new book</div>
+                <form class="newBookForm" >
+                    <div class="book-title-container">
+                        <label for="book-title">Book Title </label>
+                        <input type="text" name="book-title" id="book-title">
+                    </div>
+                    <div class="book-author-container">
+                        <label for="author">Author</label>
+                        <input type="text" name="author" id="author">
+                    </div>
+            
+                    <div class="book-pages-container">
+                        <label for="pages">Pages</label>
+                        <input type="number" name="pages" id="pages">
+                    </div>
+                    <div class="book-read-container">
+                        <input type="checkbox" name="read" id="read">
+                        <label for="read">Read</label>
+                    </div>
+
+                    <div class="dialog-btn-container">
+                        <button type="submit" class="add-book-inner">Add book</button>
+                        <button>Close</button>
+                    </div>
+                </form>
+            </div>
+        </dialog>
+        <div class="content-container">
+            
+
+
+        </div>
     </div>
     <div class="footer">
         FOOTER
