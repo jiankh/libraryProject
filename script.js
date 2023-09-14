@@ -2,18 +2,33 @@
 
 const addBookButton = document.querySelector('.btn-add-book')
 const newBookForm = document.querySelector('.newBookForm')
+const contentContainer = document.querySelector(".content-container")
+const closeWindowBtn = document.querySelector(".close-window")
+const newBookDialog = document.querySelector('#newBookDialog')
 
 let myLibrary = [
     {
-      title: "A Game of Thrones",
+      title: "Game of Thrones",
       author: "George R. R. Martin",
       pages: 694,
       read: false
-    }
+    },
+    {
+        title: "Harry Potter",
+        author: "J.J. Rowlings",
+        pages: 6224,
+        read: true
+      }
 ];
 
-addBookButton.addEventListener('click', ()=> {
-    let newBookDialog = document.querySelector('#newBookDialog')
+renderCards(myLibrary)
+
+closeWindowBtn.addEventListener('click', (e) => {
+    e.preventDefault()
+    newBookDialog.close()
+})
+
+addBookButton.addEventListener('click', ()=> {  
     newBookDialog.show()
 } )
 
@@ -34,6 +49,23 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
+// Book.prototype.toggleRead = function () {
+//     this.read = !this.read
+// }
+
+function toggleRead(book) {
+    let idx = myLibrary.indexOf(book)
+    myLibrary[idx].read = !myLibrary[idx].read
+    renderCards(myLibrary)
+}
+
+function removeBook(book) {
+    let idx = myLibrary.indexOf(book)
+    myLibrary.splice(idx,1)
+    renderCards(myLibrary)
+}
+
+
 function addBookToLibrary() {
     const title = document.querySelector('#book-title').value
     const author = document.querySelector('#author').value
@@ -43,10 +75,10 @@ function addBookToLibrary() {
     let newBook = new Book(title, author, pages, isRead)
     myLibrary.push(newBook)
     renderCards(myLibrary)
-    console.table(myLibrary)
 }
 
 function renderCards(library) {
+    contentContainer.innerHTML = ""
     library.forEach((book) => {
         makeCard(book)
     })
@@ -58,9 +90,9 @@ function makeCard(book) {
     const pages = book.pages
     const read = book.read 
 
-    let readText = 'Not Read'
-    if (!read) { 
-        readText = 'Read'
+    let readText = '🔴Not Read '
+    if (read) { 
+        readText = '🟢Read '
     }
 
     let cardEl = document.createElement("div")
@@ -75,19 +107,40 @@ function makeCard(book) {
     let cardPages = document.createElement("div")
     cardPages.classList.add('card-pages')
 
-    let cardRead = document.createElement("div")
-    cardRead.classList.add('card-read')
+    let cardBottom = document.createElement("div")
+    cardBottom.classList.add('card-bottom')
 
-    contentContainer = document.querySelector(".content-container")
+    let cardRead = document.createElement("div")
+    cardRead.classList.add("card-read")
+    cardRead.onclick = () => toggleRead(book)
+
+    let deleteCard = document.createElement("div")
+    deleteCard.classList.add('delete-button-container')
+
+    //Making a button inside a DIV
+    let deleteCardButton = document.createElement("button")
+    deleteCardButton.classList.add('delete-card-button')
+    deleteCard.appendChild(deleteCardButton)
+    deleteCardButton.textContent = "🗑"
+    deleteCardButton.onclick = () => removeBook(book)
+
+    //Adding the Card to the main Container
     contentContainer.appendChild(cardEl)
 
     cardEl.appendChild(cardTitle)
     cardEl.appendChild(cardAuthor)
     cardEl.appendChild(cardPages)
-    cardEl.appendChild(cardRead)
+    cardEl.appendChild(cardBottom)
+
+    cardBottom.appendChild(cardRead)
+    cardBottom.appendChild(deleteCard)
 
     cardTitle.textContent = `${title}`
     cardAuthor.textContent = `by ${author}`
     cardPages.textContent = `Book Pages: ${pages} pages`
     cardRead.textContent = readText
+    
 }
+
+
+
