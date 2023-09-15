@@ -5,6 +5,9 @@ const newBookForm = document.querySelector('.newBookForm')
 const contentContainer = document.querySelector(".content-container")
 const closeWindowBtn = document.querySelector(".close-window")
 const newBookDialog = document.querySelector('#newBookDialog')
+const totalBooks = document.querySelector(".total-books")
+const booksRead = document.querySelector(".books-read")
+const booksUnread = document.querySelector(".books-unread")
 
 let myLibrary = [
     {
@@ -20,11 +23,10 @@ let myLibrary = [
         read: true
       }
 ];
-
 renderCards(myLibrary)
 
 closeWindowBtn.addEventListener('click', (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     newBookDialog.close()
 })
 
@@ -40,6 +42,7 @@ newBookForm.addEventListener('submit', (event) => {
 })
 
 
+
 // FUNCTIONS
 
 function Book(title, author, pages, read) {
@@ -49,9 +52,20 @@ function Book(title, author, pages, read) {
     this.read = read
 }
 
-// Book.prototype.toggleRead = function () {
-//     this.read = !this.read
-// }
+function updateStats() {
+    let totalBooksNum = myLibrary.length
+
+    let totalRead = 0
+    myLibrary.forEach((book) => {
+        if (book.read === true) {totalRead++}
+    })
+
+    totalUnreadNum = totalBooksNum - totalRead
+
+    totalBooks.textContent = `Total books: ${totalBooksNum}`
+    booksRead.textContent = `Total books read: ${totalRead}`
+    booksUnread.textContent = `Total books not read: ${totalUnreadNum}`
+}
 
 function toggleRead(book) {
     let idx = myLibrary.indexOf(book)
@@ -82,6 +96,7 @@ function renderCards(library) {
     library.forEach((book) => {
         makeCard(book)
     })
+    updateStats()
 }
 
 function makeCard(book) {
@@ -136,8 +151,19 @@ function makeCard(book) {
     cardBottom.appendChild(deleteCard)
 
     cardTitle.textContent = `${title}`
-    cardAuthor.textContent = `by ${author}`
-    cardPages.textContent = `Book Pages: ${pages} pages`
+    
+    if (!author) {
+        cardAuthor.textContent = `by unknown`
+    } else {
+        cardAuthor.textContent = `by ${author}`
+    }
+
+    if (!pages) {
+        cardPages.textContent = `Book Pages: unknown pages`
+    } else {
+        cardPages.textContent = `Book Pages: ${pages} pages`
+    }
+
     cardRead.textContent = readText
     
 }
