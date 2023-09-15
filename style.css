@@ -10,17 +10,21 @@
     --light-color:#f0f9ff;
     --contrast-color: #fdd1ba;
 }
-
 body{
     display: flex;
     flex-direction: column;
-    height:100vh;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .container {
     display: grid;
-    grid-template: 1fr 8fr / 1fr 6fr;
-    height: 100vh;
+    grid-template: 1fr 6fr / 1fr 6fr;
+
 }
 
 /* HEADER */
@@ -68,6 +72,8 @@ body{
     flex-wrap: wrap;
     gap: 20px;
     box-shadow: 2px 2px 5px inset var(--dark-color);
+    flex-grow: 1;
+    min-height: 100vh;
 }
 
 .card {
@@ -114,15 +120,10 @@ dialog{
 
 
 
-
-
-
-
-
-
 /* FOOTER */
 .footer {
-    display: flex;
-    justify-content: center;
-    flex-grow: 0;
-}
+
+    background-color: var(--light-color);
+    text-align: center;
+    padding: 10px 0;
+  }
