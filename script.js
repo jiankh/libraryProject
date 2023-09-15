@@ -8,6 +8,7 @@ const newBookDialog = document.querySelector('#newBookDialog')
 const totalBooks = document.querySelector(".total-books")
 const booksRead = document.querySelector(".books-read")
 const booksUnread = document.querySelector(".books-unread")
+const bodyContainer = document.querySelector(".body")
 
 let myLibrary = [
     {
@@ -26,12 +27,15 @@ let myLibrary = [
 renderCards(myLibrary)
 
 closeWindowBtn.addEventListener('click', (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     newBookDialog.close()
+    toggleBlur()
 })
 
 addBookButton.addEventListener('click', ()=> {  
     newBookDialog.show()
+    toggleBlur()
+    
 } )
 
 newBookForm.addEventListener('submit', (event) => {
@@ -39,6 +43,7 @@ newBookForm.addEventListener('submit', (event) => {
     addBookToLibrary()
     newBookForm.reset()
     newBookDialog.close()
+    toggleBlur()
 })
 
 
@@ -50,6 +55,11 @@ function Book(title, author, pages, read) {
     this.author = author
     this.pages = pages
     this.read = read
+}
+
+//effect for the backdrop Dialog
+function toggleBlur() {
+    bodyContainer.classList.toggle('blurred')
 }
 
 function updateStats() {
